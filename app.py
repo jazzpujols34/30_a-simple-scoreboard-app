@@ -7,6 +7,7 @@ from wtforms import StringField, IntegerField, PasswordField, BooleanField, Subm
 from wtforms.validators import DataRequired
 from flask_migrate import Migrate
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
