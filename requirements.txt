@@ -6,3 +6,4 @@ flask-ngrok==0.0.25
 Flask-SQLAlchemy==3.0.3
 Flask-WTF==1.1.1
 Werkzeug==2.2.3
+dotenv

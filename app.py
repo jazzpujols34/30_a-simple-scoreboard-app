@@ -6,6 +6,10 @@ from flask_login import UserMixin, LoginManager, current_user, login_user, logou
 from wtforms import StringField, IntegerField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from flask_migrate import Migrate
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///scoreboard.db'
@@ -179,5 +183,5 @@ def delete_score(score_id):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.config['SECRET_KEY'] = '123'
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.run(debug=True, port=5003)
