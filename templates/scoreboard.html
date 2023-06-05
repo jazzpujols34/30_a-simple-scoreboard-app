@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scoreboard</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Scoreboard</h1>
+    <table>
+        <tr>
+            <th>Player Name</th>
+            <th>Score</th>
+			<th>Category</th>
+			<th>Guess Team</th>
+			<th>Guess Score</th>
+			<th>Actions</th>
+        </tr>
+        {% for score in scores %}
+        <tr>
+            <td>{{ score.player_name }}</td>
+            <td>{{ score.score }}</td>
+			<td>{{ score.category }}</td>
+			<td>{{ score.guess_team }}</td>
+			<td>{{ score.guess_score }}</td>
+			<td>
+                <form action="/delete/{{ score.id }}" method="post" class="delete-form">
+                    {{ score_form.hidden_tag() }}
+                    <input type="hidden" name="score_id" value="{{ score.id }}">
+                    <input type="submit" value="Delete" class="delete-button">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+	<form action="/add" method="post">
+		{{ score_form.hidden_tag() }}
+		{{ score_form.player_name.label }} {{ score_form.player_name() }}
+		{{ score_form.score.label }} {{ score_form.score() }}
+		{{ score_form.category.label }} {{ score_form.category() }}
+		<input type="text" name="guess_team" placeholder="Guess Team" required>
+		<input type="text" name="guess_score" placeholder="Guess Score" required>
+		{{ score_form.submit() }}
+	</form>
+	<form action="/calculate_scores" method="post">
+		<input type="text" name="winning_team" placeholder="Winning Team" required>
+		<input type="text" name="winning_score" placeholder="Winning Score" required>
+		<input type="submit" value="Calculate Scores">
+	</form>
+</body>
+</html>
