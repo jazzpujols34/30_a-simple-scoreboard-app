@@ -5,7 +5,7 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Scoreboard</h1>
+    <h1>{{ title.title }}</h1>
     <table>
         <tr>
             <th>Player Name</th>
@@ -38,6 +38,11 @@
         </tr>
         {% endfor %}
     </table>
+	<form action="/" method="post">
+		{{ title_form.hidden_tag() }}
+		{{ title_form.title.label }} {{ title_form.title() }}
+		{{ title_form.submit() }}
+	</form>
 	<form action="/add" method="post">
 		{{ score_form.hidden_tag() }}
 		{{ score_form.player_name.label }} {{ score_form.player_name() }}

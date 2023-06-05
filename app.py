@@ -60,6 +60,13 @@ class RegistrationForm(FlaskForm):
     password2 = PasswordField('Repeat Password', validators=[DataRequired()])
     submit = SubmitField('Register')
 
+class Title(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False, default='Scoreboard')
+
+class TitleForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    submit = SubmitField('Update Title')
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -88,8 +95,15 @@ def home():
                 db.session.delete(score)
                 db.session.commit()
                 return redirect('/')
+            
+    title = Title.query.first()
+    title_form = TitleForm()
+    if title_form.validate_on_submit():
+        title.title = title_form.title.data
+        db.session.commit()
+        return redirect('/')
     
-    return render_template('scoreboard.html', scores=scores, score_form=score_form, delete_forms=delete_forms)
+    return render_template('scoreboard.html', scores=scores, score_form=score_form, delete_forms=delete_forms, title=title, title_form=title_form)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_score():
@@ -205,5 +219,8 @@ def delete_score(score_id):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+        if Title.query.first() is None:
+            db.session.add(Title())
+            db.session.commit()
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.run(debug=True, port=5003)
