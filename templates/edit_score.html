@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Score</title>
+</head>
+<body>
+    <h1>Edit Score</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        {{ form.player_name.label }} {{ form.player_name() }}
+        {{ form.score.label }} {{ form.score() }}
+        {{ form.category.label }} {{ form.category() }}
+        {{ form.guess_team.label }} {{ form.guess_team() }}
+        {{ form.guess_score.label }} {{ form.guess_score() }}
+        {{ form.submit() }}
+    </form>
+</body>
+</html>

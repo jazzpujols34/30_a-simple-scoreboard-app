@@ -41,6 +41,8 @@ class ScoreForm(FlaskForm):
     player_name = StringField('Player Name', validators=[DataRequired()])
     score = IntegerField('Score', validators=[DataRequired()])
     category = StringField('Category', validators=[DataRequired()])
+    guess_team = StringField('Guess Team')
+    guess_score = StringField('Guess Score')
     submit = SubmitField('Add Score')
 
 class DeleteForm(FlaskForm):
@@ -58,6 +60,13 @@ class RegistrationForm(FlaskForm):
     password2 = PasswordField('Repeat Password', validators=[DataRequired()])
     submit = SubmitField('Register')
 
+class Title(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False, default='Scoreboard')
+
+class TitleForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    submit = SubmitField('Update Title')
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -73,6 +82,8 @@ def home():
         player_name = score_form.player_name.data
         score_value = score_form.score.data
         category = score_form.category.data
+        guess_team = score_form.guess_team.data
+        guess_score = score_form.guess_score.data
         new_score = Score(player_name=player_name, score=score_value, category=category)
         db.session.add(new_score)
         db.session.commit()
@@ -84,8 +95,15 @@ def home():
                 db.session.delete(score)
                 db.session.commit()
                 return redirect('/')
+            
+    title = Title.query.first()
+    title_form = TitleForm()
+    if title_form.validate_on_submit():
+        title.title = title_form.title.data
+        db.session.commit()
+        return redirect('/')
     
-    return render_template('scoreboard.html', scores=scores, score_form=score_form, delete_forms=delete_forms)
+    return render_template('scoreboard.html', scores=scores, score_form=score_form, delete_forms=delete_forms, title=title, title_form=title_form)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_score():
@@ -173,6 +191,23 @@ def calculate_scores():
     
     return redirect('/')
 
+@app.route('/edit/<int:score_id>', methods=['GET', 'POST'])
+def edit_score(score_id):
+    score = Score.query.get_or_404(score_id)
+    if request.method == 'POST':
+        form = ScoreForm(request.form)
+        if form.validate():
+            score.player_name = form.player_name.data
+            score.score = form.score.data
+            score.category = form.category.data
+            score.guess_team = form.guess_team.data
+            score.guess_score = form.guess_score.data
+            db.session.commit()
+            return redirect('/')
+    else:
+        form = ScoreForm(obj=score)
+    return render_template('edit_score.html', form=form)
+
 
 @app.route('/delete/<int:score_id>', methods=['POST'])
 def delete_score(score_id):
@@ -184,5 +219,8 @@ def delete_score(score_id):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+        if Title.query.first() is None:
+            db.session.add(Title())
+            db.session.commit()
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.run(debug=True, port=5003)

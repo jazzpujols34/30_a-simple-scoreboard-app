@@ -1,12 +1,13 @@
 body {
     font-family: Arial, sans-serif;
+    font-weight: 600; /* semi-bold */
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background: linear-gradient(to bottom, #add8e6 0%, #f0f0f0 100%); /* light pale blue with fade-out effect */
 }
 
 h1 {
-    background-color: #333;
+    background-color: #86C5DA;
     color: #fff;
     padding: 10px 0;
     text-align: center;
@@ -19,17 +20,24 @@ table {
 }
 
 table, th, td {
-    border: 1px solid #999;
+    border: 1px solid #86C5DA;
 }
 
 th, td {
-    padding: 10px;
+    padding: 15px;
     text-align: center;
+	font: bold;
+	font-size: large;
 }
 
 th {
-    background-color: #333;
+    background-color: #86C5DA;
     color: #fff;
+}
+
+label {
+	padding: 15px;
+    cursor: default;
 }
 
 form {
@@ -45,10 +53,12 @@ form input[type="text"], form input[type="number"] {
 
 form input[type="submit"] {
     padding: 5px 10px;
-    background-color: #333;
-    color: #fff;
+    background-color: #86C5DA;
+	color: #fff;
     border: none;
     cursor: pointer;
+	font: bold;
+	font-size: large;
 }
 
 <head>

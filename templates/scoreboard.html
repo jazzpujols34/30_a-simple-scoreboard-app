@@ -5,7 +5,7 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Scoreboard</h1>
+    <h1>{{ title.title }}</h1>
     <table>
         <tr>
             <th>Player Name</th>
@@ -23,22 +23,33 @@
 			<td>{{ score.guess_team }}</td>
 			<td>{{ score.guess_score }}</td>
 			<td>
-                <form action="/delete/{{ score.id }}" method="post" class="delete-form">
-                    {{ score_form.hidden_tag() }}
-                    <input type="hidden" name="score_id" value="{{ score.id }}">
-                    <input type="submit" value="Delete" class="delete-button">
-                </form>
-            </td>
+				<form actionApologies for the abrupt cut-off in the previous message. Here's the continuation:
+		
+		```html
+				<form action="/delete/{{ score.id }}" method="post" class="delete-form">
+					{{ score_form.hidden_tag() }}
+					<input type="hidden" name="score_id" value="{{ score.id }}">
+					<input type="submit" value="Delete" class="delete-button">
+				</form>
+				<form action="/edit/{{ score.id }}" method="get">
+					<input type="submit" value="Edit">
+				</form>
+			</td>
         </tr>
         {% endfor %}
     </table>
+	<form action="/" method="post">
+		{{ title_form.hidden_tag() }}
+		{{ title_form.title.label }} {{ title_form.title() }}
+		{{ title_form.submit() }}
+	</form>
 	<form action="/add" method="post">
 		{{ score_form.hidden_tag() }}
 		{{ score_form.player_name.label }} {{ score_form.player_name() }}
 		{{ score_form.score.label }} {{ score_form.score() }}
 		{{ score_form.category.label }} {{ score_form.category() }}
-		<input type="text" name="guess_team" placeholder="Guess Team" required>
-		<input type="text" name="guess_score" placeholder="Guess Score" required>
+		{{ score_form.guess_team.label }} {{ score_form.guess_team() }}
+		{{ score_form.guess_score.label }} {{ score_form.guess_score() }}
 		{{ score_form.submit() }}
 	</form>
 	<form action="/calculate_scores" method="post">
