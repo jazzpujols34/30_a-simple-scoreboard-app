@@ -14,6 +14,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///scoreboard.db'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 db = SQLAlchemy(app)
 login = LoginManager(app)
 migrate = Migrate(app, db)
@@ -222,5 +223,4 @@ if __name__ == '__main__':
         if Title.query.first() is None:
             db.session.add(Title())
             db.session.commit()
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.run(debug=True, port=5003)

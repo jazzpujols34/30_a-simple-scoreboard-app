@@ -10,6 +10,8 @@ This is a simple Flask application that allows users to keep track of scores.
 
 ## Setup and Installation
 
+### Local Setup
+
 1. Clone the repository:
 
 ```bash
@@ -31,9 +33,28 @@ pip install -r requirements.txt
 flask run
 ```
 
+### Docker Setup
+
+1. Build the Docker image:
+
+```bash
+docker build -t scoreboard-app .
+```
+
+2. Run the Docker container:
+
+```bash
+docker run -e SECRET_KEY=your_secret_key -p 5003:5003 scoreboard-app
+```
+
+3. Replace your_secret_key with your actual secret key.
+
+The application will be available at http://localhost:5003.
+
 ## License
 
 This project is licensed under the terms of the MIT license.
 
+Remember to replace `yourusername` and `your_secret_key` with your actual GitHub username and your actual secret key, respectively.
 
 
